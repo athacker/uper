@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AdminController {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(ApplicationController.class);
-
+//test comment
 	 @Autowired private UperUserService userService;
   	 @Autowired private SecurityService securityService;
 	 
