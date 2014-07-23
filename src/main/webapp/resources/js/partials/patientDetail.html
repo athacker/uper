@@ -1,0 +1,260 @@
+<div data-ng-controller="patientController" data-ng-init="initPatient();" >
+
+<div id="header-container" class="site-full sticky"></div>
+<div id="content-wrapper" class="site-full clearfix">
+<div id="aaron">
+<div id="content-main" class="site">
+<form class="uperForm site" name="patientForm">  
+ 
+<row> <!--  main container row -->
+ 
+<div class="col-md-12">
+	   
+<h4 id="patientInfo">Patient Information  </h4>
+<row>
+	<div class="col-md-3 pull-right clearfix">
+	<div class="legend">
+			<label> Applications</label>
+		 	<div class="history"  style="overflow:scroll; height:150px; overflow-x:hidden;">
+		 	<ul data-ng-repeat="fileNumber in patient.stateFileNumbers"> 
+		 	  <li data-ng-click="getApplication(  patientForm.$dirty, fileNumber )"> {{fileNumber}}</li> 
+		 	</ul>
+		 	</div>
+		<button data-ng-show="patientForm.$valid"  data-ng-disabled="patientForm.$dirty"  class="btn btn-primary" data-ng-click="createApplication();">Create New Application</button>
+ 		</div>
+	</div>
+</row>
+<p/>  
+	
+<row>
+<div class="col-md-9">
+
+	<div class="col-md-3">
+		<div class="form-group" data-ng-class="{'has-error': patientForm.firstName.$error.required}">
+		    <label for="firstName">First Name</label>
+		    <input capitalize-first class="form-control" name="firstName" id="firstName" data-ng-model="patient.firstName " placeholder="First Name" maxlength="20" required>
+		  	<span  class="required" data-ng-show="patientForm.firstName.$error.required">Required</span> 
+		 </div>
+    </div>
+    <div class="col-md-2">
+		<div class="form-group" >
+		    <label for="middleName">Middle Name</label>
+		    <input capitalize-first class="form-control " data-ng-model="patient.middleName " placeholder="Middle Name" maxlength="10"  >
+		  </div>
+    </div>
+    
+    <div class="col-md-3">
+		<div class="form-group" data-ng-class="{'has-error': patientForm.lastName.$error.required}">
+		    <label for="lastName">Last Name</label>
+		    <input capitalize-first class="form-control" name="lastName" id="lastName" data-ng-model="patient.lastName" placeholder="Last Name" maxlength="20" data-on-blur="nameCheck();" required>
+		  	<span  class="required" data-ng-show="patientForm.lastName.$error.required">Required</span> 
+		 </div>
+    </div>
+    
+     <div class="col-md-3">
+    	<div class="form-group" data-ng-class="{'has-error': patientForm.dob.$error.required}">
+		    <label for="dob">DOB    </label>
+		    <input class="form-control" name="dob" id="dob"  date-range future='false' past='true'  data-ng-model="patient.dob"  maxlength="10" data-ui-mask="99-99-9999"  required>
+		  	<span class="required" data-ng-show="patientForm.dob.$error.required">Required</span> 
+		  	<span class="required" data-ng-show="patientForm.dob.$error.dateRange">- Valid DOB cannot be in the future.</span> 
+		 
+		 </div>
+    </div>
+    
+    
+</div><!-- end of col-md-9 -->
+</row>  
+
+<row>
+<div class="col-md-9">
+	    <div class="col-md-9">
+		    <div class="form-group" data-ng-class="{'has-error': patientForm.addressCurrent.$error.required}">
+		    	<label for="addressCurrent">Street Address</label>
+		    	<input class="form-control" data-ng-model="patient.addressCurrent"  name="addressCurrent" id="addressCurrent" placeholder="Example: 100 South Main St." maxlength="50" required>
+				<span class="required" data-ng-show="patientForm.addressCurrent.$error.required">Required</span>  
+		 </div> 
+    	</div>
+ </div>
+</row><!-- end of row -->
+
+
+<row>
+<div class="col-md-9">
+     <div class="col-md-3">
+		    <div class="form-group" data-ng-class="{'has-error': patientForm.zipCurrent.$error.required}">
+		    	<label for=" zipCurrent">Zip</label>  
+		    	<input class="form-control" data-ui-mask="99999" data-ng-model="patient.zipCurrent"  name="zipCurrent"  id="zipCurrent" maxlength="5"  data-on-blur="getCityState(false);"  required>
+		   		<span class="required" data-ng-show="patientForm.zipCurrent.$error.required">Required </span>
+		   		<span class="required" data-ng-show="patientForm.zipCurrent.$error.required">{{badzip}} </span>
+		   </div>
+	    </div>
+	    
+	     <div class="col-md-4">
+		    <div class="form-group" data-ng-class="{'has-error': patientForm.cityCurrent.$error.required}">
+		    	<label for=" cityCurrent">City</label> 
+		    	<input class="form-control" data-ng-model="patient.cityCurrent" data-ng-bind="patient.cityCurrent" name="cityCurrent" id="cityCurrent" placeholder="City" maxlength="20" required> 
+ 		 		<span class="required" data-ng-show="patientForm.cityCurrent.$error.required">Required</span>
+ 		 	</div> 
+	    </div>
+    
+	     <div class="col-md-2">
+		    <div class="form-group" data-ng-class="{'has-error': patientForm.stateCurrent.$error.required}">
+		    	<label for="stateCurrent">State</label> 
+		    	<input class="form-control" data-ng-model="patient.stateCurrent" data-ng-bind="patient.stateCurrent" name="stateCurrent" id="stateCurrent" placeholder="State" maxlength="2" required> 
+ 		 		<span class="required" data-ng-show="patientForm.stateCurrent.$error.required">Required</span>
+ 		 	</div> 
+	    </div>
+ </div><!-- end of col-md-9 -->
+</row><!-- end of row -->
+
+
+<row>
+<div class="col-md-9">
+<h4>Guardian or Parent Information </h4>
+
+	<div class="col-md-3">
+		<div class="form-group" data-ng-class="{'has-error': patientForm.parentFirstName.$error.required}">
+		    <label for="parentFirstName">First Name</label>
+		    <input capitalize-first class="form-control" name="parentFirstName" id="parentFirstName" data-ng-model="patient.parentFirstName" placeholder="Parent First Name" data-ng-required="patient.minor" maxlength="30">
+	 	 	<span class="required" data-ng-show="patientForm.parentFirstName.$error.required"> Required </span>
+	 	</div>
+    </div>
+     <div class="col-md-2">
+		<div class="form-group" >
+		    <label for="middleName">Middle Name</label>
+		    <input capitalize-first class="form-control " data-ng-model="patient.parentMiddleName " placeholder="Parent Middle Name" maxlength="10"  >
+		  </div>
+    </div>
+    
+    <div class="col-md-3">
+		<div class="form-group" data-ng-class="{'has-error': patientForm.parentLastName.$error.required}">
+		    <label for="parentLastName">Last Name</label>
+		    <input capitalize-first class="form-control" name="parentLastName" id="parentLastName" data-ng-model="patient.parentLastName " placeholder="Parent Last Name" data-ng-required="patient.minor" maxlength="30" >
+	    	<span class="required" data-ng-show="patientForm.parentLastName.$error.required"> Required </span>
+	    </div>
+    </div>
+    
+     <div class="col-md-3">
+    	<div class="form-group"  data-ng-class="{'has-error': patientForm.parentDob.$error.required}" >
+		    <label for="parentDob">Parent DOB</label>
+		    <input class="form-control" name="parentDob" date-range future='false' past='true'   id="parentDob" data-ng-model="patient.parentDob" data-ui-mask="99-99-9999" data-ng-required="patient.minor"  maxlength="10" >
+		    <span class="required" data-ng-show="patientForm.parentDob.$error.required"> Required - Valid DOB cannot be in the future.  </span>
+		</div>
+    </div>
+    
+    
+</div><!-- end of col-md-9 -->
+</row>  
+
+<row>
+<div class="col-md-9">
+	<div class="col-md-9">
+	  	<div class="checkbox">
+	    <label>
+	      <input data-ng-model="parentAddressSame" type="checkbox" data-ng-click="toggleParentAddress();"> Select if Patient/Parent share same address.
+	    </label>
+	 	 </div>
+	 </div>	 
+ 
+	  <div class="col-md-9">
+		    <div class="form-group" data-ng-class="{'has-error': patientForm.parentAddressCurrent.$error.required}">  
+		    	<label for="parentAddressCurrent">Street Address</label>
+		    	<input class="form-control" data-ng-model="patient.parentAddressCurrent"  name="parentAddressCurrent" id="parentAddressCurrent" placeholder="Example: 100 South Main St." data-ng-required="patient.minor"  maxlength="50" >
+		 	 	<span class="required" data-ng-show="patientForm.parentAddressCurrent.$error.required"> Required </span>
+		 	</div> 
+    	</div>
+ </div><!-- end of col-md-9 -->
+</row><!-- end of row -->
+
+
+<row>
+<div class="col-md-9">
+     <div class="col-md-3">
+		    <div class="form-group" data-ng-class="{'has-error': patientForm.parentZipCurrent.$error.required}" >
+		    	<label for="parentZipCurrent">Zip</label>  
+		    	<input class="form-control" data-ui-mask="99999" data-ng-model="patient.parentZipCurrent"  name="parentZipCurrent"  id="parentZipCurrent" maxlength="5" data-ng-required="patient.minor" data-on-blur="getCityState(true);" >
+		  		<span class="required" data-ng-show="patientForm.parentZipCurrent.$error.required"> Required </span>
+		  	  	<span class="required" >{{badZipParent}} </span>
+		  	</div>
+	    </div><!-- end of col-md-3 -->
+	    
+	     <div class="col-md-4">
+		    <div class="form-group" data-ng-class="{'has-error': patientForm.parentCityCurrent.$error.required}" >
+		    	<label for="parentCityCurrent">City</label> 
+		    	<input class="form-control" data-ng-model="patient.parentCityCurrent" data-ng-bind="patient.parentCityCurrent" name="parentCityCurrent" id="parentCityCurrent" placeholder="City" data-ng-required="patient.minor"  maxlength="20"> 
+ 		 		<span class="required" data-ng-show="patientForm.parentCityCurrent.$error.required"> Required </span>
+ 		 	</div> 
+	    </div><!-- end of col-md-4 -->
+    
+	     <div class="col-md-2">
+		    <div class="form-group  data-ng-class="{'has-error': patientForm.parentStateCurrent.$error.required}"  >
+		    	<label for="parentStateCurrent">State</label> 
+		    	<input class="form-control" data-ng-model="patient.parentStateCurrent" data-ng-bind="patient.parentStateCurrent" name="parentStateCurrent" id="parentStateCurrent" placeholder="State" data-ng-required="patient.minor"  maxlength="2"> 
+ 				 <span class="required" data-ng-show="patientForm.parentStateCurrent.$error.required"> Required </span>
+ 		 	</div> 
+	    </div><!-- end of col-md-2 -->
+ </div><!-- end of col-md-9 -->
+</row><!-- end of row -->
+
+ 
+<row>
+<div class="col-md-12">
+<h4>Supervising Physician</h4>
+ 	<div class="col-md-3">
+		<div class="form-group"  data-ng-class="{'has-error': patientForm.physicianName.$error.required}">
+		    <label for="physicianName">Physician Name and Title</label>
+		    <input capitalize-first class="form-control"  id="physicianName" name="physicianName" data-ng-model="patient.physicianName" placeholder="Physician Name and Title" maxlength="30" required>
+	 		<span class="required" data-ng-show="patientForm.physicianName.$error.required">Required</span>
+		</div>
+    </div><!-- end of col-md-3 -->
+    
+     <div class="col-md-2">
+		<div class="form-group" data-ng-class="{'has-error': patientForm.doplNumber.$error.required}">
+		    <label class="doplink" data-ng-click="doplLookup();">DOPL  Lookup </label>
+		    <input class="form-control" id="doplNumber" name="doplNumber" data-ng-model="patient.doplNumber" required>
+	   		<span class="required" data-ng-show="patientForm.doplNumber.$error.required">Required</span>
+		</div>
+    </div><!-- end of col-md-2 -->
+  
+     <div class="col-md-2"  data-ng-class="{'has-error': patientForm.licenseExpireDate.$error.required}">
+    	<div class="form-group" >
+		    <label for="licenseExpireDate">Lic Expire Date</label>
+		    <input class="form-control" date-range future='true' past='false'  name="licenseExpireDate" id="licenseExpireDate" data-ng-model="patient.licenseExpireDate"   data-ui-mask="99-99-9999"  required>
+		 	<span class="required" data-ng-show="patientForm.licenseExpireDate.$error.required">Required</span>
+		    <span class="required" data-ng-show="patientForm.licenseExpireDate.$error.dateRange">Expiration Dates cannot be in the past.</span>
+		 </div>
+    </div><!-- end of col-md-2 -->
+    
+   <div class="col-md-2">
+		<div class="form-group" data-ng-class="{'has-error': patientForm.physicianBoardCertified.$error.required}">
+		    <label class="doplink" for="physicianBoardCertified"  data-ng-click="boardCertSiteLookup();">Board Certified</label>
+		    <input type="checkbox" class="form-control" id="physicianBoardCertified" name="physicianBoardCertified" data-ng-model="patient.physicianBoardCertified" required >
+		    <span class="required" data-ng-show="patientForm.physicianBoardCertified.$error.required">Required</span>
+  		</div>
+    </div><!-- end of col-md-2 -->
+ </div><!-- col-md-12 -->
+</row>  
+
+
+<row>
+  	<div class="col-md-12"> 
+  		<button type="submit" class="btn btn-primary" data-ng-disabled="patientForm.$invalid"   data-ng-click="savePatient();">Save Patient</button>
+ 		<button type="submit" class="btn btn-warning" data-ng-click="resetForm( patientForm.$dirty  );">Revert Changes</button>
+  		<button type="submit" class="btn btn-success" data-ng-click="clearForm( patientForm.$dirty  );">Clear Form</button>
+ 	</div>
+</row>
+
+
+<div class="clear"></div>
+
+</div><!-- end of col-md-12 -->
+</row><!-- end of main row -->
+<div class="clear"></div>
+</form><!-- end of form  -->
+</div><!-- end of main-content -->
+</div><!-- end of aaron/content -->
+</div><!-- end of content-wrapper -->
+
+</div>
+ 
+

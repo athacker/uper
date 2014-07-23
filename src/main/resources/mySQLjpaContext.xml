@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="gov.utah.health.uper" />
+	<tx:annotation-driven transaction-manager="transactionManager" />
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+ 
+    <jpa:repositories base-package="gov.utah.health.uper.repository" entity-manager-factory-ref="entityManagerFactory" transaction-manager-ref="transactionManager"/>
+
+ 
+
+  	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="punit" />
+		
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true" />
+			</bean>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+		 	<entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+				<entry key="hibernate.hbm2ddl.auto" value="update" />
+  			<!--     <entry key="hibernate.hbm2ddl.auto" value="create-drop" />     --> 
+				<entry key="hibernate.format_sql" value="true" />
+		 
+			</map>
+		</property>
+	</bean>
+
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	
+		<bean id="dataSource"	class="org.springframework.jndi.JndiObjectFactoryBean"  >
+		<property name="jndiName">
+			<value>java:comp/env/jdbc/uperDatasource</value>
+		</property>
+		<property name="lookupOnStartup">
+			<value>false</value>
+		</property>
+		<property name="proxyInterface">
+			<value>javax.sql.DataSource</value>
+		</property>
+	</bean>
+ 
+ 
+ 
+ 
+ 
+</beans>

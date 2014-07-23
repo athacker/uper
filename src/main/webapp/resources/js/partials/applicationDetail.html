@@ -1,0 +1,252 @@
+<div data-ng-controller="applicationController" data-ng-init="initApplication();">
+<form class="uperForm" name="applicationForm">  
+<div id="header-container" class="site-full sticky"></div>
+<div id="content-wrapper" class="site-full clearfix">
+<div id="content-main" class="site">
+
+
+<row> <!--  main container row -->
+ 
+<div class="col-md-12">
+<fieldset data-ng-disabled="disableForm">	   
+<h4 id="patientInfo">Application Information  </h4>
+ 
+
+
+
+<row>
+<div class="col-md-9">
+
+	<div class="col-md-4">
+		<div class="form-group"  >
+		    <label class="bold">Patient Name:</label> <br/>
+		  	  	 {{application.patientFirstName }} 	 {{application.patientLastName }} 
+		 </div>
+    </div>
+    
+    
+    <div class="col-md-4">
+		<div class="form-group" >
+		    <label  class="bold">State File Number:</label><br/>
+		  	{{ application.stateFileNumber  }}
+		 </div>
+    </div>
+    
+  
+    
+</div><!-- col-md-9 -->
+</row>  
+
+<row>
+<div class="col-md-9">
+  			
+  		
+     <div class="col-md-4">
+     		<span data-ng-hide="application.minor" class="bold">Over 18 Documentation  </span>
+		 	<div id="over18" class="legend" data-ng-hide="application.minor" >
+				<div class="checkbox adult"><label><input type="checkbox" name="H005" data-ng-change="saveDocument('H005', documents.h005);" data-ng-model="documents.h005"/>  Application </label><span class="required" data-ng-hide="documents.h005">*</span></div> 
+				<div class="checkbox adult"><label><input type="checkbox" name="H003" data-ng-change="saveDocument('H003', documents.h003);" data-ng-model="documents.h003"/>Patient Evaluation Record </label><span class="required" data-ng-hide="documents.h003">*</span></div> 
+	  	 	    <div class="checkbox adult"><label><input type="checkbox" name="ID" data-ng-change="saveDocument('ID', documents.id);" data-ng-model="documents.id"/>Driver's License or State ID </label><span class="required" data-ng-hide="documents.id">*</span></div>
+	  	 	    <div class="checkbox"><label><input type="checkbox" name="DOC_RES" data-ng-change="saveDocument('DOC_RES', documents.doc_RES);" data-ng-model="documents.doc_RES"/>Proof Of Residency (If Out of State Id)</label></div>
+	  	 	    <div class="checkbox"><label><input type="checkbox" name="GUARD" data-ng-change="saveDocument('GUARD', documents.guard);" data-ng-model="documents.guard"/> Legal Guardian (if applicable) Photocopy of court order </label></div>
+	  	 	
+	  	 	</div>
+			
+			
+			<div id="under18" data-ng-show="application.minor" >
+				<span data-ng-show="application.minor" class="bold"> Under 18 Documentation</span>
+		  		<div class="checkbox minor"><label><input type="checkbox" name="H001" data-ng-change="saveDocument('H001', documents.h001);" data-ng-model="documents.h001"/>Application </label> <span class="required" data-ng-hide="documents.h001">*</span></div> 
+	 			<div class="checkbox minor"><label><input type="checkbox" name="H003" data-ng-change="saveDocument('H003', documents.h003);" data-ng-model="documents.h003"/> Patient Evaluation Record  </label> <span class="required" data-ng-hide="documents.h003">*</span></div> 
+		 		<div class="checkbox minor"><label><input type="checkbox" name="ID" data-ng-change="saveDocument('ID', documents.id);" data-ng-model="documents.id"/> Parent/Guardian Driver's License or State ID </label> <span class="required" data-ng-hide="documents.id">*</span></div>
+		 	    <div class="checkbox "><label><input type="checkbox" name="DOC_RES" data-ng-change="saveDocument('DOC_RES', documents.doc_RES);" data-ng-model="documents.doc_RES"/> Parent/Guardian Proof Of Residency (If Out of State ID)</label> </div>
+	  	 	    <div class="checkbox "><label><input type="checkbox" name="GUARD" data-ng-change="saveDocument('GUARD', documents.guard);"  data-ng-model="documents.guard"/> Legal Guardian (if applicable) Photocopy of court order </label></div>
+	  	 	
+		 	</div>
+ 	</div>
+    
+ 
+ 
+ 
+       <div class="col-md-3">
+		    <div class="form-group" >
+		    	<label  class="bold">Payment Type:</label>
+		    	<select class="form-control" data-ng-change="savePaymentType()" data-ng-model="application.paymentType" data-ng-options="pt.value as pt.type for pt in paymentTypes"   />
+			</div> 
+    	</div>
+   
+   
+    	
+         <div class="col-md-2">
+		    <div class="form-group" >
+		    	<label  class="bold">Paid:  </label>
+		    	 <input class="form-control" id="paid" data-ng-model="application.paymentReceived"   data-ng-change="savePayment()" type="checkbox"> 
+			</div> 
+    	</div>
+         
+    
+    
+ 
+</row>  
+
+</div>
+ </fieldset>
+<row>
+<div class="col-md-9">
+	    <div class="col-md-4">
+		    <div class="form-group" data-ng-class="{'has-error': applicationForm.applicationStatus.$error.required}">
+	    		<label  class="bold">Update Status</label>																																				 
+	    		<select class="form-control" data-ng-disabled="disableStatus" id="applicationStatus" name="applicationStatus" data-ng-change="calcDates();" data-ng-model="application.applicationStatus" data-ng-options="status.value as status.label for status in applicationStatus" required />
+				<span class="required" data-ng-show="applicationForm.applicationStatus.$error.required">Required</span>  
+		 	</div> 
+    	</div>
+    	
+    	<div class="col-md-4">
+		    <div class="form-group" data-ng-class="{'has-error': applicationForm.securityPaperNumber.$error.required}">
+		    	<label  class="bold">Certified Paper</label>  
+		    	<input class="form-control" id="securityPaperNumber" name="securityPaperNumber" data-ng-model="application.securityPaperNumber" required >
+		   		<span class="required" data-ng-show="applicationForm.securityPaperNumber.$error.required">Required</span>
+		 	</div>
+	    </div>
+	    
+	    
+	    
+	    
+    	
+ </div>
+</row><!-- end of row -->
+
+
+
+<row>
+	<div class="col-md-9">
+	    	<div class="col-md-4">
+			    <div class="form-group" >
+			    	<label  class="bold">Issue Date:</label> <br/>
+			  		 {{application.issuedDate  }}
+			  	</div> 
+		    </div>
+	    
+		     <div class="col-md-5">
+			    <div class="form-group" >
+			    	<label class="bold">Expiration Date:</label> <br/>
+					 {{application.expirationDate  }} 	
+				</div> 
+		    </div>
+		    
+		    
+	  
+    
+	 </div>
+</row><!-- end of row -->
+
+
+
+<row>
+<div class="col-md-9">
+   			<div class="col-md-4">
+    		<div class="form-group" >
+    		<button type="submit" class="btn btn-success" data-ng-click="backToPatient();" >Return To Patient</button>
+    		</div>
+    		</div>
+
+    		<div class="col-md-4 ">
+	    	<div class="form-group" data-ng-show="'APPROVED' === application.applicationStatus">
+	    	<button type="submit" class="btn btn-primary"  data-ng-click="printApplication();" data-ng-disabled="applicationForm.$invalid">Print Certified Copy</button>
+	    	</div>
+	    	</div>
+
+</div>
+</row>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+ 
+
+<div class="clear"></div>
+ 
+
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clear"></div>
+<div class="clear">
+
+</div> <!-- col-md-12 -->
+</row>
+
+
+
+
+
+</div>
+</div>
+
+</form>
+
+
+
+
+
+
+
+
+   
+  
+ 
+ 
+ 
+
+
+ 
+  
+  
+ 
+
+
+
+
+
+ 
+
+ 
+</div>
+

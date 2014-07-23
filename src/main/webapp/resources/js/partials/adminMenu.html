@@ -1,0 +1,73 @@
+<div id="adminMenu"  data-ng-controller="adminController" >
+<div id="header-container" class="site-full sticky"></div>
+<div id="content-wrapper" class="site-full clearfix">
+<div id="content-main" class="site">
+ 
+ 
+ 
+<div class="col-md-12" class="uperForm">
+	<row>
+		<h4>Generate System Reports</h4>
+	</row>	
+	
+	
+ 	<div class="col-md-12">  
+		<row>
+		 
+		<div class="col-md-5"> 
+	    	<span class="btn btn-primary" data-ng-click="generateReport()">Application.xls </span> </p>
+	    </div>	
+	 	</row>   
+ 	</div>
+ 	
+ 	
+ 	<div class="col-md-12"> 
+	 	<row>
+	 	 <div class="col-md-2"> 		
+		 	<button ng-disabled=" ''===firstName"    data-ng-click="generateXML()" class="btn btn-primary">Generate XML</button>
+		</div>	
+		 <div class="col-md-3"> 	
+		 	<input class="form-control"    ng-model="firstName" placeholder="Search First Name Like"/>
+		 </div>
+	 	<div class="col-md-3"> 	
+	 	 	<input class="form-control" ng-model="lastName" placeholder="Search Last Name Like"/>
+	 	 </div>	
+	 	<div class="col-md-2"> 		
+		 	<button data-ng-click="clearForm('nameSearch')" class="btn btn-success">Clear Form</button>
+		</div>	
+		</row>
+   	</div>
+ 	
+ 	
+ 
+ 	
+	<div class="col-md-12">	 <p/>  
+			<row>
+			<div class="col-md-2"> 
+		 		<button ng-disabled="''===stateFileNumber" data-ng-click="generateXMLStateFileNumber()" class="btn btn-primary">Generate XML</button>
+			</div>
+	 		<div class="col-md-3"> 
+	 	 		<input  class="form-control"  ng-model="stateFileNumber" placeholder="State File Number"/>  
+		 	</div>
+		 	<div class="col-md-3"> 
+	 	 	</div>
+		 	
+			<div class="col-md-2"> 		
+		 		<button data-ng-click="clearForm('stateFileNumber')" class="btn btn-success">Clear Form</button></p>
+			</div>	
+		</row>
+		
+	</div>	 
+		
+ 	 
+
+
+</div>
+ 
+
+
+
+ 
+</div>
+</div>
+</div>

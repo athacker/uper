@@ -1,0 +1,61 @@
+ <row> <!--  main container row -->   
+ 
+  <div class="modalHeader" ><h4> {{(items|filter:query).length}} Patient(s) found having similar names.   </h4> 
+	  	<div class="modalSubHeader">To avoid duplicate entry, please review this list.  
+	  	<b>Click</b> on the row you wish to modify OR select <b>Cancel</b> button below to start a new patient record.
+	 	</div>
+  </div>
+ 
+ 
+ 
+ <div >
+ 	 	 
+            <table class="table table-striped table-hover">
+            	<thead>
+            	<tr>
+	            	<th>
+	            		<div data-ng-click="predicate = 'patientLastName'; sortName=true" data-ng-hide="sortName" class="ascending">Last Name</div>
+             			<div data-ng-click="predicate = '-patientLastName '; sortName=false" data-ng-show="sortName"  class="descending">Last Name  </div> 
+    				</th>
+    				<th>
+	            		<div data-ng-click="predicate = 'patientFirstName'; sortName=true" data-ng-hide="sortName" class="ascending">First Name  </div>
+             			<div data-ng-click="predicate = '-patientFirstName'; sortName=false" data-ng-show="sortName"  class="descending">First  Name  </div> 
+    				</th>
+	                <th><div data-ng-click="predicate = 'patientDob'; sortDob=true" data-ng-hide="sortDob" class="ascending">Dob</div>
+    	    			<div data-ng-click="predicate = '-patientDob'; sortDob=false" data-ng-show="sortDob"  class="descending">Dob</div> 
+    				</th>
+					<th><div data-ng-click="predicate = 'patientCity'; sortCity=true" data-ng-hide="sortCity" class="ascending">City </div>
+             			<div data-ng-click="predicate = '-patientCity'; sortCity=false" data-ng-show="sortCity"  class="descending">City </div> 
+    				</th>
+	            	<th><div data-ng-click="predicate = 'patientState'; sortState=true" data-ng-hide="sortState" class="ascending">State </div>
+             			<div data-ng-click="predicate = '-patientState';sortState=false" data-ng-show="sortState"  class="descending"> State </div>
+    				</th>
+            	</tr>
+            	</thead>
+            	<tbody>
+                <tr ng-repeat="item in items | orderBy:predicate:reverse" data-ng-click="ok(item)">
+                  
+                    <td>{{ item.patientLastName }} </td>
+                    <td>{{ item.patientFirstName }} </td>
+			 		<td>{{ item.patientDob| date}}   </td> 
+			 		<td>{{ item.patientCity }} </td>
+               		<td>{{ item.patientState }} </td>
+                </tr>
+                </tbody>
+           </table>
+  </div>			
+  	
+ 
+
+ 
+
+
+   
+<div class="modal-footer">        
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+ </div>
+ 
+ 
+ 
+ </row>
+ 

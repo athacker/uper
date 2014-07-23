@@ -1,0 +1,95 @@
+ <div id="demo"  data-ng-controller="demoController">
+ 
+<div id="header-container" class="site-full sticky"></div>
+<div id="content-wrapper" class="site-full clearfix">
+<div id="content-main" class="site">
+
+<row>
+<div class="col-md-9"> 	   
+<h3 id="patientInfo"> </h3>	
+ 
+
+
+        
+ <div class="col-md-4">
+  Currently Registering: {{registeredUser.firstName}} {{registeredUser.lastName}}
+ </div>
+ 
+ 
+ 
+ 
+ 
+ <div class="col-md-4">
+ <form name='myForm'>
+ 	 <input type="textbox" ng-model="registeredUser.firstName" capitalize-first  required placeholder="First Name"/>
+	 <input type="textbox" ng-model="registeredUser.lastName"  id="lastName" name="lastName"  required placeholder="last Name"/>
+	 <input type="textbox" ng-model="registeredUser.middleName"  id="middleName" name="middleName" required placeholder="Middle Name"/>
+  	 <button data-ng-click="registerUser(registeredUser);">Save</button>
+  	 <button data-ng-click="isDirty(myForm.$dirty)">Dirty </button>
+  	 <button data-ng-click="isValid(myForm.$valid)">Valid </button>
+ </form>	 
+ </div>
+ 
+ 
+ <div class="col-md-4">
+ <button ng-click="getRegisteredUsers();">Get Registered Users</button>
+ <button ng-click="getNoUsers();">Get No Data</button>
+ <input type="textbox" ng-model="searchField" placeholder="Search Text"/>
+ </div>
+ <p/>
+ 
+ 
+ 
+ <p/>
+ 
+ <div class="col-md-4">
+	 <table class="table table-striped table-hover">
+		 <tr>
+		 	<th>Index </th>
+		 	<th>Move </th>
+		    
+		    <th><div data-ng-click="predicate = 'firstName'; sortFname=true" data-ng-hide="sortFname"  >First Name</div>
+    	    <div data-ng-click="predicate = '-firstName';sortFname=false" data-ng-show="sortFname"  >First Name</div> 
+    		</th>
+		 	
+		 	<th><div data-ng-click="predicate = 'lastName'; sortLname=true" data-ng-hide="sortLname"  >Last Name</div>
+            <div data-ng-click="predicate = '-lastName'; sortLname=false" data-ng-show="sortLname" >Last Name</div> 
+    		</th>
+		 	
+		 	<th><div data-ng-click="predicate = 'middleName';  sortMiddle=true" data-ng-hide="sortMiddle"  >Middle Name</div>
+    	    <div data-ng-click="predicate = '-middleName'; sortMiddle=false" data-ng-show="sortMiddle"   >Middle Name</div> 
+    		</th>
+		 </tr>
+		 
+		 
+		 <tr data-ng-repeat="user in registeredUsers  |  filter:searchField | orderBy:predicate:reverse " >
+		 <td> {{$index}} </td>
+		 <td><span ng-show="!$first" ng-click="moveUp($index)" class='text-success' ><strong> UP </strong> </span> 
+		 <span ng-show="!$last" ng-click="moveDown($index)"  class='text-error'><strong>DOWN</strong> </span></td>
+		 <td>{{user.firstName}}</td><td>{{user.lastName}}</td> <td>{{user.middleName}}</td>
+		
+		 </tr>
+ 	</table> 
+ </div>
+  
+  
+  
+
+ 
+ 
+ 
+ 
+ </div>
+ </row>
+ 
+ 
+ 
+ 
+ </div>
+ </div>
+ </div>
+ 
+ 
+ 
+ </div>
+ 

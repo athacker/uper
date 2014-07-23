@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context docBase="uper" path="uper" reloadable="true" >
+   	<Resource
+		auth="Container"
+		driverClassName="net.sourceforge.jtds.jdbc.Driver"
+		initialSize="0"
+		jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
+		jmxEnabled="true"
+		logAbandoned="true"
+		maxActive="5"
+		maxWait="10000"
+		minEvictableIdleTimeMillis="30000"
+		minIdle="1"
+		name="jdbc/uperDatasource"
+		password=""
+		removeAbandoned="true"
+		removeAbandonedTimeout="60"
+		testOnBorrow="true"
+		testOnReturn="false"
+		testWhileIdle="true"
+		timeBetweenEvictionRunsMillis="30000"
+		type="javax.sql.DataSource"
+		url=""
+		username=""
+		validationInterval="30000"
+		validationQuery="SELECT 1" />
+ 
+</Context>

@@ -1,0 +1,77 @@
+ 
+ <div data-ng-controller="adminController" data-ng-init="initUserList();"  > 
+ <form name="userForm" id="userForm">
+ <div id="header-container" class="site-full sticky"></div>
+ <div id="content-wrapper" class="site-full clearfix">  
+ <div id="content" class="site-full">
+ <div id="content-main" class="site">
+
+ <row> <!--  main container row -->
+ <div class="col-md-12">
+ <h4>Maintain System Users</h4> 
+ <row>
+<div class="col-md-12">
+	<div class="col-md-3">
+		<div class="form-group" data-ng-class="{'has-error': userForm.userName.$error.required}">
+		    <label class="doplink" data-ng-click="predicate = 'userName'" for="userName">UMD LoginId </label>
+		    <input class="form-control" name="userName" id="userName" data-ng-model="user.userName " placeholder="User Name" maxlength="20" required>
+		  	<span class="required" data-ng-show="userForm.userName.$error.required">Required</span> 
+		 </div>
+    </div>
+	<div class="col-md-3">
+		<div class="form-group" data-ng-class="{'has-error': userForm.firstName.$error.required}">
+		    <label class="doplink" data-ng-click="predicate = 'firstName'"  for='firstName'>First Name</label>
+		    <input capitalize-first class="form-control" name="firstName" id="firstName" data-ng-model="user.firstName " placeholder="First Name" maxlength="20" required>
+		  	<span  class="required" data-ng-show="userForm.firstName.$error.required">Required</span> 
+		 </div>
+    </div>
+    
+    <div class="col-md-3">
+		<div class="form-group" data-ng-class="{'has-error': userForm.lastName.$error.required}">
+		    <label class="doplink" data-ng-click="predicate = 'lastName'"  for="lastName">Last Name</label>
+		    <input capitalize-first class="form-control" name="lastName" id="lastName" data-ng-model="user.lastName " placeholder="Last Name" maxlength="20" required>
+		  	<span  class="required" data-ng-show="userForm.lastName.$error.required">Required</span> 
+		 </div>
+    </div>
+    
+    <div class="col-md-3"><br/><button data-ng-disabled="userForm.$invalid" class="btn btn-primary" data-ng-click="saveUser()">Save</button> </div>
+ 
+</div>
+</row>    
+
+ 
+
+
+
+ <row>
+ <div class="col-md-12" data-ng-repeat="user in users |  orderBy:predicate:reverse " >
+ 
+ 	 	<div class="col-md-3" ng-class-odd="'list'"   data-ng-click="showUserDetail(user)">{{user.userName}}</div>
+ 		<div class="col-md-3" ng-class-odd="'list'"  data-ng-click="showUserDetail(user)">{{user.firstName}}</div>
+ 		<div class="col-md-3" ng-class-odd="'list'"  data-ng-click="showUserDetail(user)">{{user.lastName}}</div>
+ 		<div class="col-md-1" ng-class-odd="'list'" ><input type="checkbox" data-ng-click="toggleActive(user)" data-ng-model="user.active"/>&nbsp;&nbsp;Active</div>
+  
+ 
+ </div>
+ </row>
+ 
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+
+</div> <!--  col-md-12 -->
+</row> <!--  main container row -->
+
+<div class="clearfix"></div>
+
+ </div> <!-- content -->
+ </div> <!-- content-wrapper -->
+</form> 
+ </div> 
+ 
